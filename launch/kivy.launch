@@ -9,7 +9,7 @@
     <!-- <node name="pub_py" pkg="umbot_gui" type="pub_py.py" output="screen" respawn="true">
         <param name="kivy_file"   value="$(arg kivy_file)" />
     </node> -->
-    <node name="umbot_delivery" pkg="umbot_gui" type="umbot_delivery.py" output="screen" respawn="true">
+    <node name="umbot_delivery" pkg="umbot_gui" type="umbot_gui.py" output="screen" respawn="true">
         <param name="kivy_file"   value="$(arg kivy_file)" />
     </node>
 </launch>
