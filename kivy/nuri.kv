@@ -1,45 +1,159 @@
 FloatLayout:
+    ################################################
+    # Delivery #
+    MDLabel:
+        id: labelDelivery
+        text: "Delivery"
+        halign: "center"
+        font_style: "H3"
+        size_hint: 1, 1
+        pos_hint: {"center_x": .13, "center_y": .92}
+        
+    ################################################
+    # Room     #
+    MDLabel:
+        id: labelRoom
+        text: "Room           :"
+        halign: "center"
+        font_style: "H4"
+        size_hint: 0.25, 0.1
+        pos_hint: {"center_x": .15, "center_y": .82}
+
+    MDTextField:
+        id: textRoom
+        hint_text: "Room"
+        pos_hint: {"center_x": .4, "center_y": .81}
+        size_hint: 0.20, 0.1
+        icon_left: "key-variant"
+
+    ################################################
+    # Password #
+    MDLabel:
+        id: labelPassword
+        text: "Password   :"
+        halign: "center"
+        font_style: "H4"
+        size_hint: 0.25, 0.1
+        pos_hint: {"center_x": .15, "center_y": .73}
+
+    MDTextField:
+        id: textPassword
+        hint_text: "Password"
+        pos_hint: {"center_x": .4, "center_y": .72}
+        size_hint: 0.20, 0.1
+        password: True
+        icon_left: "key-variant"
+
+    MDIconButton:
+        icon: "eye-off"
+        pos_hint: {"center_x": .525, "center_y": .72}
+        theme_text_color: "Hint"
+        on_release:
+            self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+            textPassword.password = False if textPassword.password is True else True
+
+    ################################################
+    # Open #
+    # Set  #
+    MDRaisedButton:
+        id: btnOpen
+        text: "Open"
+        size_hint: 0.235, 0.145
+        pos_hint: {"center_x": .165, "center_y": .58}
+        on_press: app.btnOpen_pressed(*args)
+
+    MDRaisedButton:
+        id: btnSet
+        text: "Set"
+        size_hint: 0.235, 0.145
+        pos_hint: {"center_x": .435, "center_y": .58}
+        on_press: app.btnSet_pressed(*args)
+
+    ################################################
+    # Disinfection #
+    # Cleaning     #
+    MDRaisedButton:
+        id: btnDisinfection
+        text: "Disinfection"
+        size_hint: 0.235, 0.145
+        pos_hint: {"center_x": .165, "center_y": .41}
+        on_press: app.btnDisinfection_pressed(*args)
+
+    MDRaisedButton:
+        id: btnCleaning
+        text: "Cleaning"
+        size_hint: 0.235, 0.145
+        pos_hint: {"center_x": .435, "center_y": .41}
+        on_press: app.btnCleaning_pressed(*args)
+
+    ################################################
+    # STOP #
+    MDRaisedButton:
+        id: btnStop
+        text: "STOP"
+        size_hint: 0.47, 0.2905
+        pos_hint: {"center_x": .30, "center_y": .17}
+        on_press: app.btnStop_pressed(*args)
+
+    ################################################
+    # Map #
     Image:
         source: '/home/msjun-xavier/catkin_ws/src/umbot_gui/img/NURI.png'
-
+        pos_hint: {"center_x": .78, "center_y": .5}
+    
     MDRaisedButton:
-        id: Room322
-        text: "R.322"
-        size_hint: 0.2, 0.1
-        pos_hint: {"center_x": .8, "center_y": .1}
-        on_press: app.btnRoom322_pressed(*args)
-
-    MDRaisedButton:
-        id: Room320
-        text: "RAIL"
-        size_hint: 0.2, 0.1
-        pos_hint: {"center_x": .8, "center_y": .3}
-        on_press: app.btnRoom320_pressed(*args)
-
-    MDRaisedButton:
-        id: Room318
-        text: "CDSL"
-        size_hint: 0.2, 0.1
-        pos_hint: {"center_x": .8, "center_y": .9}
-        on_press: app.btnRoom318_pressed(*args)
-
-    MDRaisedButton:
-        id: Room301
-        text: "Dr.Oh"
-        size_hint: 0.2, 0.1
-        pos_hint: {"center_x": .2, "center_y": .1}
+        id: btnRoom301
+        text: "301"
+        size_hint: 0.1, 0.05
+        pos_hint: {"center_x": .75, "center_y": .21}
         on_press: app.btnRoom301_pressed(*args)
 
-    MDRaisedButton:
-        id: Room309
-        text: "R.309"
-        size_hint: 0.2, 0.1
-        pos_hint: {"center_x": .2, "center_y": .5}
-        on_press: app.btnRoom309_pressed(*args)
+    # MDRaisedButton:
+    #     id: btnRoom302
+    #     text: "302"
+    #     size_hint: 0.1, 0.05
+    #     pos_hint: {"center_x": .64, "center_y": .05}
+    #     on_press: app.btnRoom302_pressed(*args)
 
-    MDRaisedButton:
-        id: Room314
-        text: "Dr.Jung"
-        size_hint: 0.2, 0.1
-        pos_hint: {"center_x": .2, "center_y": .9}
-        on_press: app.btnRoom314_pressed(*args)
+    # MDRaisedButton:
+    #     id: btnRoom303
+    #     text: "303"
+    #     size_hint: 0.1, 0.05
+    #     pos_hint: {"center_x": .64, "center_y": .12}
+    #     on_press: app.btnRoom303_pressed(*args)
+
+    # MDRaisedButton:
+    #     id: btnRoom320
+    #     text: "RAIL"
+    #     size_hint: 0.1618, 0.1
+    #     pos_hint: {"center_x": .8, "center_y": .3}
+    #     on_press: app.btnRoom320_pressed(*args)
+
+    # MDRaisedButton:
+    #     id: btnRoom318
+    #     text: "CDSL"
+    #     size_hint: 0.1618, 0.1
+    #     pos_hint: {"center_x": .8, "center_y": .9}
+    #     on_press: app.btnRoom318_pressed(*args)
+
+    # MDRaisedButton:
+    #     id: btnRoom301
+    #     text: "Dr.Oh"
+    #     size_hint: 0.1618, 0.1
+    #     pos_hint: {"center_x": .2, "center_y": .1}
+    #     on_press: app.btnRoom301_pressed(*args)
+
+    # MDRaisedButton:
+    #     id: btnRoom309
+    #     text: "R.309"
+    #     size_hint: 0.1618, 0.1
+    #     pos_hint: {"center_x": .2, "center_y": .5}
+    #     on_press: app.btnRoom309_pressed(*args)
+
+    # MDRaisedButton:
+    #     id: btnRoom314
+    #     text: "Dr.Jung"
+    #     size_hint: 0.1618, 0.1
+    #     pos_hint: {"center_x": .2, "center_y": .9}
+    #     on_press: app.btnRoom314_pressed(*args)
+

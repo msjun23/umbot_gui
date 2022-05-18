@@ -4,9 +4,13 @@ import rospy
 
 from std_msgs.msg import String
 from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import Twist
 
 from kivy.lang import Builder
 from kivymd.app import MDApp
+from kivy.core.window import Window
+
+# Window.size = (1280, 960)
 
 nuri_background = """
 Image: 
@@ -17,89 +21,131 @@ class UmbotGUI(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         
-        rospy.init_node('delivery_gui',anonymous=True)
+        rospy.init_node('umbot_gui',anonymous=True)
+        
+        self.mode = 'deli_wait'      # non, deli_wait, deli_ing, disinfection, cleaning
+        self.pw = ''
 
         self.goal_pub = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=10)
         
         kivy_file = rospy.get_param('~kivy_file')      # Get kivy file
         print(kivy_file)
         self.kivy_main = Builder.load_file(kivy_file)
-        # self.img = Builder.load_string(nuri_background)
 
     def build(self):
         return self.kivy_main
     
-    def btnRoom322_pressed(self, *args):
-        print("Go to Room 322")
-        
-        pose = PoseStamped()
-        pose.header.frame_id = "map"
-        pose.pose.position.x = 3.12410187721
-        pose.pose.position.y = 3.88758349419
-        pose.pose.orientation.z = -0.540481435978
-        pose.pose.orientation.w = 0.841355939756
-        
-        self.goal_pub.publish(pose)
-        
-    def btnRoom320_pressed(self, *args):
-        print("Go to RAIL")
-        
-        pose = PoseStamped()
-        pose.header.frame_id = "map"
-        pose.pose.position.x = 8.40724086761
-        pose.pose.position.y = -0.867243170738
-        pose.pose.orientation.z = -0.718212506596
-        pose.pose.orientation.w = 0.695823824951
-        
-        self.goal_pub.publish(pose)
+    ################################################
+    # Delivery mode #
+    
+    def btnOpen_pressed(self, *args):
+        if (self.mode == 'deli_ing'):
+            pw = self.kivy_main.ids.textPassword.text
+            if (pw == self.pw):
+                rospy.loginfo('Open deli bucket')
                 
-    def btnRoom318_pressed(self, *args):
-        print("Go to CDSL")
+                self.mode = 'deli_wait'
+                
+                rospy.loginfo('Go back to station')
+                # Go back to station
+                # pose = PoseStamped()
+                # pose.header.frame_id = 'map'
+                # pose.pose.position.x = -0.379455089569
+                # pose.pose.position.y = 8.80924701691
+                # pose.pose.orientation.z = 0.998416539354
+                # pose.pose.orientation.w = -0.0562531238558
+
+                # self.goal_pub.publish(pose)
+            else:
+                rospy.loginfo('Password is wrong! Try again')
+        else:
+            rospy.loginfo('Equip Delivery module first, or delivery is not on going')
         
-        pose = PoseStamped()
-        pose.header.frame_id = "map"
-        pose.pose.position.x = 2.09527802467
-        pose.pose.position.y = -7.42946052551
-        pose.pose.orientation.z = 0.994984225062
-        pose.pose.orientation.w = 0.100031954288
-        
-        self.goal_pub.publish(pose)
+    def btnSet_pressed(self, *args):
+        if (self.mode == 'deli_wait'):            
+            dest = self.kivy_main.ids.textRoom.text
+            self.pw = self.kivy_main.ids.textPassword.text
+            
+            rospy.loginfo('Go to destination: ' + dest)
+            
+            # Publish the goal point as PoseStamped
+            if (dest == '301'):
+                self.mode = 'deli_ing'
+                
+                pose = PoseStamped()
+                pose.header.frame_id = 'map'
+                pose.pose.position.x = -0.379455089569
+                pose.pose.position.y = 8.80924701691
+                pose.pose.orientation.z = 0.998416539354
+                pose.pose.orientation.w = -0.0562531238558
+
+                self.goal_pub.publish(pose)
+            elif (dest == '302'):
+                self.mode = 'deli_ing'
+                
+                pose = PoseStamped()
+                pose.header.frame_id = 'map'
+                pose.pose.position.x = -0.379455089569
+                pose.pose.position.y = 8.80924701691
+                pose.pose.orientation.z = 0.998416539354
+                pose.pose.orientation.w = -0.0562531238558
+
+                self.goal_pub.publish(pose)
+            else:
+                rospy.loginfo('Error: ' + dest + ' is not existed!')
+        else:
+            rospy.loginfo('Equip Delivery module first, or delivery in on going')
         
     def btnRoom301_pressed(self, *args):
-        print("Go to Dr.Oh")
-        
-        pose = PoseStamped()
-        pose.header.frame_id = "map"
-        pose.pose.position.x = -4.77280473709
-        pose.pose.position.y = 0.99575984478
-        pose.pose.orientation.z = 0.777963984101
-        pose.pose.orientation.w = 0.628308872643
-        
-        self.goal_pub.publish(pose)
-        
-    def btnRoom309_pressed(self, *args):
-        print("Go to 309")
-        
-        pose = PoseStamped()
-        pose.header.frame_id = "map"
-        pose.pose.position.x = -5.63479042053
-        pose.pose.position.y = -4.37079906464
-        pose.pose.orientation.z = 0.933511747704
-        pose.pose.orientation.w = -0.358546812701
-        
-        self.goal_pub.publish(pose)
-        
-    def btnRoom314_pressed(self, *args):
-        print("Go to Dr.Jung")
-        
-        pose = PoseStamped()
-        pose.header.frame_id = "map"
-        pose.pose.position.x = -0.379455089569
-        pose.pose.position.y = 8.80924701691
-        pose.pose.orientation.z = 0.998416539354
-        pose.pose.orientation.w = -0.0562531238558
+        if (self.mode == 'deli_wait'):
+            rospy.loginfo('Go to Dr.Oh')
+            self.mode = 'deli_ing'
+            
+            pose = PoseStamped()
+            pose.header.frame_id = 'map'
+            pose.pose.position.x = -0.379455089569
+            pose.pose.position.y = 8.80924701691
+            pose.pose.orientation.z = 0.998416539354
+            pose.pose.orientation.w = -0.0562531238558
 
-        self.goal_pub.publish(pose)
+            self.goal_pub.publish(pose)
+        else:
+            rospy.loginfo('Equip Delivery module first, or delivery in on going')
+            
+    ################################################
+    # Disinfection mode #
+    def btnDisinfection_pressed(self, *args):
+        if (self.mode == 'disinfection'):
+            rospy.loginfo('Disinfection mode is running')
+        else:
+            rospy.loginfo('Equip Disinfection module first!!!')
+            
+    ################################################
+    # Cleaning mode #
+    def btnCleaning_pressed(self, *args):
+        if (self.mode == 'cleaning'):
+            rospy.loginfo('Cleaning mode is running')
+        else:
+            rospy.loginfo('Equip Cleaning module first!!!')
+            
+    ################################################
+    # Stop #
+    def btnStop_pressed(selfm, *args):
+        rospy.loginfo('Stopping')
+        
+        pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+        
+        cmd_vel = Twist()
+        
+        cmd_vel.linear.x = 0.0
+        cmd_vel.linear.y = 0.0
+        cmd_vel.linear.z = 0.0
+        
+        cmd_vel.angular.x = 0.0
+        cmd_vel.angular.y = 0.0
+        cmd_vel.angular.z = 0.0
+        
+        pub.publish(cmd_vel)
 
 if __name__=='__main__':
     GUI = UmbotGUI()
