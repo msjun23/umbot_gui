@@ -3,8 +3,7 @@
 import rospy
 
 from std_msgs.msg import String
-from geometry_msgs.msg import PoseStamped
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import PoseStamped, Twist
 
 from kivy.lang import Builder
 from kivymd.app import MDApp
@@ -23,9 +22,10 @@ class UmbotGUI(MDApp):
         
         rospy.init_node('umbot_gui',anonymous=True)
         
-        self.mode = 'deli_wait'      # non, deli_wait, deli_ing, disinfection, cleaning
+        self.mode = 'non'      # non, deli_wait, deli_ing, disinfection, cleaning
         self.pw = ''
 
+        self.mode_pub = rospy.Publisher('/umbot_mode', String, queue_size=10)
         self.goal_pub = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=10)
         
         kivy_file = rospy.get_param('~kivy_file')      # Get kivy file
@@ -34,6 +34,9 @@ class UmbotGUI(MDApp):
 
     def build(self):
         return self.kivy_main
+    
+    ################################################
+    # Set umbot mode by GPIO
     
     ################################################
     # Delivery mode #
@@ -57,9 +60,9 @@ class UmbotGUI(MDApp):
 
                 # self.goal_pub.publish(pose)
             else:
-                rospy.loginfo('Password is wrong! Try again')
+                rospy.loginfo('[Error] Password is wrong! Try again')
         else:
-            rospy.loginfo('Equip Delivery module first, or delivery is not on going')
+            rospy.loginfo('[Error] Equip Delivery module first, or delivery is not on going')
         
     def btnSet_pressed(self, *args):
         if (self.mode == 'deli_wait'):            
@@ -92,9 +95,9 @@ class UmbotGUI(MDApp):
 
                 self.goal_pub.publish(pose)
             else:
-                rospy.loginfo('Error: ' + dest + ' is not existed!')
+                rospy.loginfo('[Error] ' + dest + ' is not existed!')
         else:
-            rospy.loginfo('Equip Delivery module first, or delivery in on going')
+            rospy.loginfo('[Error] Equip Delivery module first, or delivery in on going')
         
     def btnRoom301_pressed(self, *args):
         if (self.mode == 'deli_wait'):
@@ -110,23 +113,27 @@ class UmbotGUI(MDApp):
 
             self.goal_pub.publish(pose)
         else:
-            rospy.loginfo('Equip Delivery module first, or delivery in on going')
+            rospy.loginfo('[Error] Equip Delivery module first, or delivery in on going')
             
     ################################################
     # Disinfection mode #
     def btnDisinfection_pressed(self, *args):
         if (self.mode == 'disinfection'):
             rospy.loginfo('Disinfection mode is running')
+            
+            self.mode_pub.publish('disinfection')
         else:
-            rospy.loginfo('Equip Disinfection module first!!!')
+            rospy.loginfo('[Error] Equip Disinfection module first!!!')
             
     ################################################
     # Cleaning mode #
     def btnCleaning_pressed(self, *args):
         if (self.mode == 'cleaning'):
             rospy.loginfo('Cleaning mode is running')
+            
+            self.mode_pub.publish('cleaning')
         else:
-            rospy.loginfo('Equip Cleaning module first!!!')
+            rospy.loginfo('[Error] Equip Cleaning module first!!!')
             
     ################################################
     # Stop #
