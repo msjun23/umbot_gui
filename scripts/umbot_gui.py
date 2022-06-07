@@ -154,7 +154,7 @@ class UmbotGUI(MDApp):
             
     ################################################
     # Stop #
-    def btnStop_pressed(selfm, *args):
+    def btnStop_pressed(self, *args):
         rospy.loginfo('Stopping')
         
         pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
@@ -170,6 +170,7 @@ class UmbotGUI(MDApp):
         cmd_vel.angular.z = 0.0
         
         pub.publish(cmd_vel)
+        self.mode_pub.publish('stop')
 
 if __name__=='__main__':
     GUI = UmbotGUI()
