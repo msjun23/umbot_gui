@@ -23,7 +23,7 @@ Image:
 deli_module = 15
 disinf_module = 16
 clean_module = 18
-action_sig = 999
+action_sig = 22
 
 class UmbotGUI(MDApp):
     def __init__(self, **kwargs):
