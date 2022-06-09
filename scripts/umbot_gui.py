@@ -23,6 +23,7 @@ Image:
 deli_module = 15
 disinf_module = 16
 clean_module = 18
+action_sig = 999
 
 class UmbotGUI(MDApp):
     def __init__(self, **kwargs):
@@ -32,6 +33,7 @@ class UmbotGUI(MDApp):
         GPIO.setup(deli_module, GPIO.IN)
         GPIO.setup(disinf_module, GPIO.IN)
         GPIO.setup(clean_module, GPIO.IN)
+        GPIO.setup(action_sig, GPIO.output)
         
         rospy.init_node('umbot_gui',anonymous=True)
         
