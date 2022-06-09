@@ -131,9 +131,9 @@ class UmbotGUI(MDApp):
     ################################################
     # Disinfection mode #
     def btnDisinfection_pressed(self, *args):
-        # if (self.mode == 'disinfection'):                # disinfection
-        pin_disinf = GPIO.input(disinf_module)
-        if (pin_disinf == 1):
+        if (self.mode == 'non'):                # disinfection
+        # pin_disinf = GPIO.input(disinf_module)
+        # if (pin_disinf == 1):
             rospy.loginfo('Disinfection mode is running')
             
             self.mode_pub.publish('disinfection')
@@ -143,9 +143,9 @@ class UmbotGUI(MDApp):
     ################################################
     # Cleaning mode #
     def btnCleaning_pressed(self, *args):
-        # if (self.mode == 'cleaning'):                # cleaning
-        pin_clean = GPIO.input(clean_module)
-        if (pin_clean == 1):
+        if (self.mode == 'non'):                # cleaning
+        # pin_clean = GPIO.input(clean_module)
+        # if (pin_clean == 1):
             rospy.loginfo('Cleaning mode is running')
             
             self.mode_pub.publish('cleaning')
