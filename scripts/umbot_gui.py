@@ -33,7 +33,7 @@ class UmbotGUI(MDApp):
         GPIO.setup(deli_module, GPIO.IN)
         GPIO.setup(disinf_module, GPIO.IN)
         GPIO.setup(clean_module, GPIO.IN)
-        GPIO.setup(action_sig, GPIO.output)
+        GPIO.setup(action_sig, GPIO.OUT)
         
         rospy.init_node('umbot_gui',anonymous=True)
         
