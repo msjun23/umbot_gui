@@ -34,6 +34,7 @@ class UmbotGUI(MDApp):
         GPIO.setup(disinf_module, GPIO.IN)
         GPIO.setup(clean_module, GPIO.IN)
         GPIO.setup(action_sig, GPIO.OUT)
+        GPIO.output(action_sig, GPIO.LOW)
         
         rospy.init_node('umbot_gui',anonymous=True)
         
@@ -58,7 +59,8 @@ class UmbotGUI(MDApp):
             if (pw == self.pw):
                 rospy.loginfo('Open deli bucket')
                 
-                self.mode = 'deli_wait'
+                self.mode = 'non'     # deli_wait
+                GPIO.output(action_sig, GPIO.LOW)
                 
                 rospy.loginfo('Go back to station')
                 # Go back to station
@@ -76,9 +78,9 @@ class UmbotGUI(MDApp):
             rospy.loginfo('[Error] Equip Delivery module first, or delivery is not on going')
         
     def btnSet_pressed(self, *args):
-        # if (self.mode == 'deli_wait'):        # deli_wait
-        pin_deli = GPIO.input(deli_module)
-        if (pin_deli == 1):
+        if (self.mode == 'non'):        # deli_wait
+        # pin_deli = GPIO.input(deli_module)
+        # if (pin_deli == 1):
             dest = self.kivy_main.ids.textRoom.text
             self.pw = self.kivy_main.ids.textPassword.text
             
@@ -87,6 +89,7 @@ class UmbotGUI(MDApp):
             # Publish the goal point as PoseStamped
             if (dest == '301'):
                 self.mode = 'deli_ing'
+                GPIO.output(action_sig, GPIO.HIGH)
                 
                 pose = PoseStamped()
                 pose.header.frame_id = 'map'
@@ -98,6 +101,7 @@ class UmbotGUI(MDApp):
                 self.goal_pub.publish(pose)
             elif (dest == '302'):
                 self.mode = 'deli_ing'
+                GPIO.output(action_sig, GPIO.HIGH)
                 
                 pose = PoseStamped()
                 pose.header.frame_id = 'map'
@@ -118,6 +122,7 @@ class UmbotGUI(MDApp):
         if (pin_deli == 1):
             rospy.loginfo('Go to Dr.Oh')
             self.mode = 'deli_ing'
+            GPIO.output(action_sig, GPIO.HIGH)
             
             pose = PoseStamped()
             pose.header.frame_id = 'map'
