@@ -40,6 +40,8 @@ class UmbotGUI(MDApp):
         
         self.mode = 'non'      # non, deli_wait, deli_ing, disinfection, cleaning
         self.pw = ''
+        
+        self.disinf_flag = 0
 
         self.mode_pub = rospy.Publisher('/umbot_mode', String, queue_size=10)
         self.goal_pub = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=10)
@@ -395,6 +397,13 @@ class UmbotGUI(MDApp):
         # pin_disinf = GPIO.input(disinf_module)
         # if (pin_disinf == 1):
             rospy.loginfo('Disinfection mode is running')
+            
+            if (self.disinf_flag == 0):
+                self.disinf_flag = 1
+                GPIO.output(action_sig, GPIO.HIGH)
+            else:
+                self.disinf_flag = 0
+                GPIO.output(action_sig, GPIO.LOW)
             
             self.mode_pub.publish('disinfection')
         else:
