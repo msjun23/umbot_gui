@@ -398,12 +398,12 @@ class UmbotGUI(MDApp):
         # if (pin_disinf == 1):
             rospy.loginfo('Disinfection mode is running')
             
-            if (self.disinf_flag == 0):
-                self.disinf_flag = 1
-                GPIO.output(action_sig, GPIO.HIGH)
-            else:
-                self.disinf_flag = 0
-                GPIO.output(action_sig, GPIO.LOW)
+            # if (self.disinf_flag == 0):
+            #     self.disinf_flag = 1
+            #     GPIO.output(action_sig, GPIO.HIGH)
+            # else:
+            #     self.disinf_flag = 0
+            #     GPIO.output(action_sig, GPIO.LOW)
             
             self.mode_pub.publish('disinfection')
         else:
