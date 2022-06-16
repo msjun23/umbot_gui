@@ -61,7 +61,7 @@ class UmbotGUI(MDApp):
             if (pw == self.pw):
                 rospy.loginfo('Open deli bucket')
                 
-                self.mode = 'non'     # deli_wait
+                self.mode = 'deli_wait'     # deli_wait
                 GPIO.output(action_sig, GPIO.LOW)
                 
                 rospy.loginfo('Go back to station')
@@ -80,9 +80,9 @@ class UmbotGUI(MDApp):
             rospy.loginfo('[Error] Equip Delivery module first, or delivery is not on going')
         
     def btnSet_pressed(self, *args):
-        if (self.mode == 'non'):        # deli_wait
-        # pin_deli = GPIO.input(deli_module)
-        # if (pin_deli == 1):
+        # if (self.mode == 'non'):        # deli_wait
+        pin_deli = GPIO.input(deli_module)
+        if (pin_deli == 1 and self.mode != 'deli_ing'):
             # Set destination
             dest = self.kivy_main.ids.textRoom.text
             # Set password
@@ -393,9 +393,9 @@ class UmbotGUI(MDApp):
     ################################################
     # Disinfection mode #
     def btnDisinfection_pressed(self, *args):
-        if (self.mode == 'non'):                # disinfection
-        # pin_disinf = GPIO.input(disinf_module)
-        # if (pin_disinf == 1):
+        # if (self.mode == 'non'):                # disinfection
+        pin_disinf = GPIO.input(disinf_module)
+        if (pin_disinf == 1):
             rospy.loginfo('Disinfection mode is running')
             
             # if (self.disinf_flag == 0):
@@ -412,9 +412,9 @@ class UmbotGUI(MDApp):
     ################################################
     # Cleaning mode #
     def btnCleaning_pressed(self, *args):
-        if (self.mode == 'non'):                # cleaning
-        # pin_clean = GPIO.input(clean_module)
-        # if (pin_clean == 1):
+        # if (self.mode == 'non'):                # cleaning
+        pin_clean = GPIO.input(clean_module)
+        if (pin_clean == 1):
             rospy.loginfo('Cleaning mode is running')
             GPIO.output(action_sig, GPIO.HIGH)
             
