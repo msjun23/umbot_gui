@@ -416,6 +416,7 @@ class UmbotGUI(MDApp):
         # pin_clean = GPIO.input(clean_module)
         # if (pin_clean == 1):
             rospy.loginfo('Cleaning mode is running')
+            GPIO.output(action_sig, GPIO.HIGH)
             
             self.mode_pub.publish('cleaning')
         else:
@@ -425,6 +426,7 @@ class UmbotGUI(MDApp):
     # Stop #
     def btnStop_pressed(self, *args):
         rospy.loginfo('Stopping')
+        GPIO.output(action_sig, GPIO.LOW)
         
         pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
         
