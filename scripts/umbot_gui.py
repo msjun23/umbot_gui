@@ -7,6 +7,7 @@ import sys
 
 from std_msgs.msg import String
 from geometry_msgs.msg import PoseStamped, Twist
+from actionlib_msgs.msg import GoalID
 
 from kivy.lang import Builder
 from kivymd.app import MDApp
@@ -45,6 +46,7 @@ class UmbotGUI(MDApp):
 
         self.mode_pub = rospy.Publisher('/umbot_mode', String, queue_size=10)
         self.goal_pub = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=10)
+        self.cancel_pub = rospy.Publisher("/move_base/cancel", GoalID, queue_size=1)
         
         kivy_file = rospy.get_param('~kivy_file')      # Get kivy file
         print(kivy_file)
@@ -431,6 +433,7 @@ class UmbotGUI(MDApp):
         pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
         
         cmd_vel = Twist()
+        cancel_msg = GoalID()
         
         cmd_vel.linear.x = 0.0
         cmd_vel.linear.y = 0.0
@@ -442,6 +445,7 @@ class UmbotGUI(MDApp):
         
         pub.publish(cmd_vel)
         self.mode_pub.publish('stop')
+        self.cancel_pub.publish(cancel_msg)
 
 if __name__=='__main__':
     GUI = UmbotGUI()
