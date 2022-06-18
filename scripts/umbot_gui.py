@@ -375,23 +375,23 @@ class UmbotGUI(MDApp):
         else:
             rospy.loginfo('[Error] Equip Delivery module first, or delivery in on going')
         
-    def btnRoom301_pressed(self, *args):
-        # if (self.mode == 'deli_wait'):            # deli_wait
-        pin_deli = GPIO.input(deli_module)
-        if (pin_deli == 1):
-            rospy.loginfo('Go to Dr.Oh')
-            self.mode = 'deli_ing'
-            GPIO.output(action_sig, GPIO.HIGH)
+    # def btnRoom301_pressed(self, *args):
+    #     # if (self.mode == 'deli_wait'):            # deli_wait
+    #     pin_deli = GPIO.input(deli_module)
+    #     if (pin_deli == 1):
+    #         rospy.loginfo('Go to Dr.Oh')
+    #         self.mode = 'deli_ing'
+    #         GPIO.output(action_sig, GPIO.HIGH)
             
-            pose = PoseStamped()
-            pose.header.frame_id = 'map'
-            pose.pose.position.x = -9.45680046082
-            pose.pose.position.y = 10.6780653
-            pose.pose.orientation.z = 0.093994140625
-            pose.pose.orientation.w = 0.0
-            self.goal_pub.publish(pose)
-        else:
-            rospy.loginfo('[Error] Equip Delivery module first, or delivery in on going')
+    #         pose = PoseStamped()
+    #         pose.header.frame_id = 'map'
+    #         pose.pose.position.x = -9.45680046082
+    #         pose.pose.position.y = 10.6780653
+    #         pose.pose.orientation.z = 0.093994140625
+    #         pose.pose.orientation.w = 0.0
+    #         self.goal_pub.publish(pose)
+    #     else:
+    #         rospy.loginfo('[Error] Equip Delivery module first, or delivery in on going')
             
     ################################################
     # Disinfection mode #
