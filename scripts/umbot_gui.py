@@ -304,9 +304,9 @@ class UmbotGUI(MDApp):
                 
                 pose = PoseStamped()
                 pose.header.frame_id = 'map'
-                pose.pose.position.x = 18.9525909424
-                pose.pose.position.y = -6.03456401825
-                pose.pose.orientation.z = 0.00247192382812
+                pose.pose.position.x = 18.9336547852
+                pose.pose.position.y = -5.74415254593
+                pose.pose.orientation.z = -0.00143432617188
                 pose.pose.orientation.w = 0.0
 
                 self.goal_pub.publish(pose)
@@ -401,6 +401,13 @@ class UmbotGUI(MDApp):
         if (pin_disinf == 1):
             rospy.loginfo('Disinfection mode is running')
             
+            # if (self.disinf_flag == 0):
+            #     self.disinf_flag = 1
+            #     GPIO.output(action_sig, GPIO.HIGH)
+            # else:
+            #     self.disinf_flag = 0
+            #     GPIO.output(action_sig, GPIO.LOW)
+            
             self.mode_pub.publish('disinfection')
         else:
             rospy.loginfo('[Error] Equip Disinfection module first!!!')
@@ -431,7 +438,9 @@ class UmbotGUI(MDApp):
     # Stop #
     def btnStop_pressed(self, *args):
         rospy.loginfo('Stopping')
-        GPIO.output(action_sig, GPIO.LOW)
+        pin_clean = GPIO.input(clean_module)
+        if (pin_clean == 1):
+            GPIO.output(action_sig, GPIO.LOW)
         
         pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
         
