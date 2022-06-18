@@ -46,7 +46,8 @@ class UmbotGUI(MDApp):
 
         self.mode_pub = rospy.Publisher('/umbot_mode', String, queue_size=10)
         self.goal_pub = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=10)
-        self.cancel_pub = rospy.Publisher("/move_base/cancel", GoalID, queue_size=1)
+        self.cancel_pub = rospy.Publisher('/move_base/cancel', GoalID, queue_size=1)
+        rospy.Subscriber('/spray_cmd', String, self.SpraySubscriber)
         
         kivy_file = rospy.get_param('~kivy_file')      # Get kivy file
         print(kivy_file)
@@ -400,16 +401,17 @@ class UmbotGUI(MDApp):
         if (pin_disinf == 1):
             rospy.loginfo('Disinfection mode is running')
             
-            # if (self.disinf_flag == 0):
-            #     self.disinf_flag = 1
-            #     GPIO.output(action_sig, GPIO.HIGH)
-            # else:
-            #     self.disinf_flag = 0
-            #     GPIO.output(action_sig, GPIO.LOW)
-            
             self.mode_pub.publish('disinfection')
         else:
             rospy.loginfo('[Error] Equip Disinfection module first!!!')
+            
+    def SpraySubscriber(self, data):
+        if (self.disinf_flag == 0):
+            self.disinf_flag = 1
+            GPIO.output(action_sig, GPIO.HIGH)
+        else:
+            self.disinf_flag = 0
+            GPIO.output(action_sig, GPIO.LOW)
             
     ################################################
     # Cleaning mode #
