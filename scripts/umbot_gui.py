@@ -406,12 +406,13 @@ class UmbotGUI(MDApp):
             rospy.loginfo('[Error] Equip Disinfection module first!!!')
             
     def SpraySubscriber(self, data):
-        if (self.disinf_flag == 0):
-            self.disinf_flag = 1
-            GPIO.output(action_sig, GPIO.HIGH)
-        else:
-            self.disinf_flag = 0
-            GPIO.output(action_sig, GPIO.LOW)
+        if (data.data == 'spray'):
+            if (self.disinf_flag == 0):
+                self.disinf_flag = 1
+                GPIO.output(action_sig, GPIO.HIGH)
+            else:
+                self.disinf_flag = 0
+                GPIO.output(action_sig, GPIO.LOW)
             
     ################################################
     # Cleaning mode #
