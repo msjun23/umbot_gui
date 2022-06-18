@@ -316,9 +316,9 @@ class UmbotGUI(MDApp):
                 
                 pose = PoseStamped()
                 pose.header.frame_id = 'map'
-                pose.pose.position.x = 17.1251449585
-                pose.pose.position.y = -6.01997566223
-                pose.pose.orientation.z = 0.00247192382812
+                pose.pose.position.x = 17.1751689911
+                pose.pose.position.y = -5.71689224243
+                pose.pose.orientation.z = -0.00143432617188
                 pose.pose.orientation.w = 0.0
 
                 self.goal_pub.publish(pose)
@@ -328,9 +328,9 @@ class UmbotGUI(MDApp):
                 
                 pose = PoseStamped()
                 pose.header.frame_id = 'map'
-                pose.pose.position.x = 16.9473133087
-                pose.pose.position.y = -6.0650472641
-                pose.pose.orientation.z = -0.00534057617188
+                pose.pose.position.x = 2.93234229088
+                pose.pose.position.y = -5.84798765182
+                pose.pose.orientation.z = -0.00143432617188
                 pose.pose.orientation.w = 0.0
 
                 self.goal_pub.publish(pose)
@@ -340,9 +340,9 @@ class UmbotGUI(MDApp):
                 
                 pose = PoseStamped()
                 pose.header.frame_id = 'map'
-                pose.pose.position.x = -2.77100992203
-                pose.pose.position.y = -6.08832168579
-                pose.pose.orientation.z = 0.00247192382812
+                pose.pose.position.x = -2.88115143776
+                pose.pose.position.y = -5.92585039139
+                pose.pose.orientation.z = -0.0052497391589
                 pose.pose.orientation.w = 0.0
 
                 self.goal_pub.publish(pose)
