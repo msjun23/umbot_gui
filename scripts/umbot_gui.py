@@ -90,6 +90,7 @@ class UmbotGUI(MDApp):
             dest = self.kivy_main.ids.textRoom.text
             # Set password
             self.pw = self.kivy_main.ids.textPassword.text
+            self.kivy_main.ids.textPassword.text = ''
             
             rospy.loginfo('Go to destination: ' + dest)
             
