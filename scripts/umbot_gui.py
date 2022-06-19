@@ -4,6 +4,7 @@ from distutils.command.clean import clean
 import rospy
 import RPi.GPIO as GPIO
 import sys
+import time
 
 from std_msgs.msg import String
 from geometry_msgs.msg import PoseStamped, Twist
@@ -66,19 +67,20 @@ class UmbotGUI(MDApp):
                 
                 self.mode = 'deli_wait'     # deli_wait
                 GPIO.output(action_sig, GPIO.LOW)
+                time.sleep(5)
                 
                 rospy.loginfo('Go back to station')
                 # Go back to station
-                # pose = PoseStamped()
-                # pose.header.frame_id = 'map'
-                # pose.pose.position.x = -0.379455089569
-                # pose.pose.position.y = 8.80924701691
-                # pose.pose.orientation.z = 0.998416539354
-                # pose.pose.orientation.w = -0.0562531238558
+                pose = PoseStamped()
+                pose.header.frame_id = 'map'
+                pose.pose.position.x = 19.983
+                pose.pose.position.y = -1.164
+                pose.pose.orientation.z = -0.00143432617188
 
-                # self.goal_pub.publish(pose)
+                self.goal_pub.publish(pose)
             else:
                 rospy.loginfo('[Error] Password is wrong! Try again')
+            self.kivy_main.ids.textPassword.text = ''
         else:
             rospy.loginfo('[Error] Equip Delivery module first, or delivery is not on going')
         
